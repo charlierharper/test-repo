@@ -89,6 +89,3 @@ Kept [4] files on [15] found files
 
 Identified PR#6 from environment
 [GitHub Comment Reporter] Posted summary as comment on charlierharper/test-repo #PR6
-[Updated Sources Reporter] copied 2 fixed source files in folder /github/workspace/report/updated_sources.
-Download it from artifacts then copy-paste it in your local repo to apply linters updates
-[32m✅ Successfully linted all files without errors[0m
