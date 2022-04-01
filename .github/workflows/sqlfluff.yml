@@ -44,7 +44,7 @@ jobs:
         id: sqlfluff_json
         if: steps.get_files_to_lint.outputs.lintees != ''
         shell: bash -l {0}
-        run: sqlfluff fix ${{ steps.get_files_to_lint.outputs.lintees }}
+        run: sqlfluff fix -vf --FIX-EVEN-UNPARSABLE ${{ steps.get_files_to_lint.outputs.lintees }}
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
