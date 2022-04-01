@@ -30,4 +30,4 @@ jobs:
           # Enable linters
           black: true
           flake8: true
-          auto-fix: true
+          auto_fix: true
