@@ -16,7 +16,8 @@ env:
   DISABLE_ERRORS: true
   PRINT_ALPACA: false
   TEXT_REPORTER: false
-  UPDATED_SOURCES_REPORTER
+  UPDATED_SOURCES_REPORTER: false
+
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
