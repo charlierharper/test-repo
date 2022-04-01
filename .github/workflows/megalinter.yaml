@@ -37,7 +37,7 @@ jobs:
         env:
           # https://megalinter.github.io/configuration/
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MEGALINTER_CONFIG: .mega-linter.yaml
+          MEGALINTER_CONFIG: ../.github/.mega-linter.yaml
 
       # Upload MegaLinter artifacts
       - name: Archive production artifacts
