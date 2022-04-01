@@ -20,3 +20,4 @@ POST_COMMANDS:
   - command: echo "This is MegaLinter POST_COMMAND on own MegaLinter ! :)"
     cwd: "workspace"
 VALIDATE_ALL_CODEBASE: false
+DISABLE_ERRORS: true
