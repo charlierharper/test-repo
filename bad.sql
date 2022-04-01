@@ -1,6 +1,7 @@
 create or replace view ams.vw_mccormick_combined_monthly_report
 as
  (with cte_segmentation as
+
            (Select vwcs.campaignid
                  , max(CASE
                            WHEN vwcs.segmentation_type = 'IO Segment' THEN vwcs.segmentation_value
