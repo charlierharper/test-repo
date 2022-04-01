@@ -4,6 +4,10 @@ as
 
            (Select vwcs.campaignid
                  , max(CASE
+
+
+
+
                            WHEN vwcs.segmentation_type = 'IO Segment' THEN vwcs.segmentation_value
                            ELSE NULL
                    END) AS io_segmentation
