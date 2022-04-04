@@ -65,7 +65,12 @@ jobs:
           message: 'isort, autopep8 fixes'
           add: '.'
 
-      - name: flake8 Lint
-        uses: py-actions/flake8@v2
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
         with:
-          path: ${{ steps.get_py_files.outputs.to_lint }}
+          flake8: true
+
+#      - name: flake8 Lint
+#        uses: py-actions/flake8@v2
+#        with:
+#          path: ${{ steps.get_py_files.outputs.to_lint }}
