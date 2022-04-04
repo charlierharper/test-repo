@@ -43,7 +43,7 @@ jobs:
       - name: autopep8
         uses: peter-evans/autopep8@v1
         with:
-          args: --recursive --in-place --aggressive --aggresive ${{ steps.get_files_to_lint.outputs.lintees }}
+          args: --recursive --in-place --aggressive --aggressive ${{ steps.get_files_to_lint.outputs.lintees }}
 #      - name: Lint SQL
 #        id: sqlfluff_json
 #        if: steps.get_files_to_lint.outputs.lintees != ''
