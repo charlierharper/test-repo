@@ -64,3 +64,8 @@ jobs:
           author_name: Git Actions - Linters
           message: 'isort, autopep8 fixes'
           add: '.'
+
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
+        with:
+          path: ${{ steps.get_py_files.outputs.to_lint }}
