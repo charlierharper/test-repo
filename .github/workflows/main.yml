@@ -62,7 +62,7 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           author_name: Git Actions - Linters
-          message: 'isort, autopep8 fixes'
+          message: '[Git Action] Python auto-linting'
           add: '.'
 
 
