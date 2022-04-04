@@ -43,10 +43,6 @@ jobs:
 
       - name: pylint-annotate
         uses: marian-code/python-lint-annotate@v3
-        with:
-          extra-pylint-options: "--output-format="colorized"
-#
-
 
 #      - name: isort
 #        uses: isort/isort-action@master
