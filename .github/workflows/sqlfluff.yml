@@ -40,11 +40,15 @@ jobs:
           tr -s '\n' ' ')
           )"
 
-      - name: Lint SQL
-        id: sqlfluff_json
-        if: steps.get_files_to_lint.outputs.lintees != ''
-        shell: bash -l {0}
-        run: sqlfluff fix ${{ steps.get_files_to_lint.outputs.lintees }}
+      - name: autopep8
+        uses: peter-evans/autopep8@v1
+        with:
+          args: --recursive --in-place --aggressive --aggresive ${{ steps.get_files_to_lint.outputs.lintees }}
+#      - name: Lint SQL
+#        id: sqlfluff_json
+#        if: steps.get_files_to_lint.outputs.lintees != ''
+#        shell: bash -l {0}
+#        run: sqlfluff fix ${{ steps.get_files_to_lint.outputs.lintees }}
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
