@@ -65,18 +65,16 @@ jobs:
 #          message: '[Git Action] Python auto-linting'
 #          add: '.'
 
-      - uses: marian-code/python-lint-annotate@v3
+      - name: pylint-annotate
+        uses: marian-code/python-lint-annotate@v3
         with:
           use-pycodestyle: true
           use-mypy: false
           use-vulture: true
           use-black: true
           use-isort: true
-          use-mypy: false
-          use-pycodestyle: true
           use-pydocstyle: true
           extra-pylint-options: "--output-format="colorized"
-          python-version: "3.7"
 #
 #      - name: comment pr
 #        uses: mshick/add-pr-comment@v1
