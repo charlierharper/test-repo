@@ -4,8 +4,6 @@ on:
   pull_request:
     branches: [main, master, QA]
 
-  workflow_dispatch:
-
 jobs:
   lint-python:
     runs-on: ubuntu-latest
