@@ -32,11 +32,11 @@ jobs:
           echo \
           $(echo ${{ steps.get_file_changes.outputs.files_modified }} |
           tr -s ' ' '\n' |
-          grep -E '^*[.]sql$' |
+          grep -E '^*[.]py' |
           tr -s '\n' ' ') \
           $(echo ${{ steps.get_file_changes.outputs.files_added }} |
           tr -s ' ' '\n' |
-          grep -E '^*[.]sql$' |
+          grep -E '^*[.]py' |
           tr -s '\n' ' ')
           )"
 
