@@ -1,0 +1,35 @@
+name: SQLFluff
+
+on:
+  pull_request:
+    branches: [main, master, QA]
+
+  workflow_dispatch:
+
+jobs:
+  lint-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: "actions/setup-python@v2"
+
+      - name: Get changed files
+        id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.4
+        with:
+          output: ' '
+
+      - name: autopep8
+        uses: peter-evans/autopep8@v1
+        with:
+          args: --recursive --in-place --aggressive --aggressive ${{ steps.get_file_changes.outputs.files }}
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Git Actions - Linters
+          message: 'isort, autopep8 fixes'
+          add: '.'
