@@ -44,6 +44,7 @@ jobs:
         uses: psf/black@stable
         with:
           src: ${{ steps.get_py_files.outputs.to_lint }}
+          options:  '--verbose'
 
       - name: autopep8
         uses: peter-evans/autopep8@v1
