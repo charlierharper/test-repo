@@ -24,8 +24,8 @@ jobs:
 
       - name: black
         uses: psf/black@stable
-        args: ${{ steps.get_file_changes.outputs.files }}
-
+        with:
+          args: ${{ steps.get_file_changes.outputs.files }}
 
       - name: autopep8
         uses: peter-evans/autopep8@v1
