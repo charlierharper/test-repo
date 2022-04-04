@@ -21,16 +21,34 @@ jobs:
         uses: trilom/file-changes-action@v1.2.4
         with:
           output: ' '
+      - name: Get changed .sql files in /models to lint
+        id: get_py_files
+        shell: bash -l {0}
+        run: |
+          # Set the command in the $() brackets as an output to use in later steps
+          echo "::set-output name=to_lint::$(
+          # Issue where grep regular expressions don't work as expected on the
+          # Github Actions shell, check dbt/models/ folder
+          echo \
+          $(echo ${{ steps.get_file_changes.outputs.files_modified }} |
+          tr -s ' ' '\n' |
+          grep -E '^*[.]py' |
+          tr -s '\n' ' ') \
+          $(echo ${{ steps.get_file_changes.outputs.files_added }} |
+          tr -s ' ' '\n' |
+          grep -E '^*[.]py' |
+          tr -s '\n' ' ')
+          )"
 
       - name: black
         uses: psf/black@stable
-        args: ${{ steps.get_file_changes.outputs.files }}
-
+        with:
+          src: ${{ steps.get_py_files.outputs.to_lint }}
 
       - name: autopep8
         uses: peter-evans/autopep8@v1
         with:
-          args: --recursive --in-place --aggressive --aggressive ${{ steps.get_file_changes.outputs.files }}
+          args: --recursive --in-place --aggressive --aggressive ${{ steps.get_py_files.outputs.to_lint }}
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
