@@ -1,12 +1,15 @@
 import json
-import os
-
-import pandas
-import scipy
+import os, pandas
 
 
-def Func2(arg1: int = None, arg_2=" test"):
+
+import scipy, time
+
+
+
+
+def Func2(arg1   : int = None, arg_2=" test"):
     print("test ")
 
 
-Func2(100.0, arg_2="test")
+Func2(100.0, arg_2=   "test")
