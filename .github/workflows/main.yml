@@ -65,9 +65,18 @@ jobs:
           message: '[Git Action] Python auto-linting'
           add: '.'
 
+      - name: pylint
+        run: |
+          pip install pylint
+          results=pylint ${{ steps.get_py_files.outputs.to_lint }} --exit-zero
+          echo "::set-output name=results::$results"
 
+      - name: comment pr
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            ${{ steps.pylint.outputs.results }]
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: false # This is the default
 
-#      - name: flake8 Lint
-#        uses: py-actions/flake8@v2
-#        with:
-#          path: ${{ steps.get_py_files.outputs.to_lint }}
