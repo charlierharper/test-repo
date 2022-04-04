@@ -21,7 +21,11 @@ jobs:
         uses: trilom/file-changes-action@v1.2.4
         with:
           output: ' '
+<<<<<<< HEAD
 
+=======
+          
+>>>>>>> fddd8a6758542b6eebdea53e0e919f2ee05e1c6c
       - name: Get changed .py files in /models to lint
         id: get_py_files
         shell: bash -l {0}
@@ -45,7 +49,11 @@ jobs:
         uses: isort/isort-action@master
         with:
           sortPaths: ${{ steps.get_py_files.outputs.to_lint }}
+<<<<<<< HEAD
           configuration: ' '
+=======
+          configuration: ''
+>>>>>>> fddd8a6758542b6eebdea53e0e919f2ee05e1c6c
 
       - name: black
         uses: psf/black@stable
