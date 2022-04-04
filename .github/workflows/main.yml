@@ -41,6 +41,13 @@ jobs:
           tr -s '\n' ' ')
           )"
 
+      - name: pylint-annotate
+        uses: marian-code/python-lint-annotate@v3
+        with:
+          extra-pylint-options: "--output-format="colorized"
+#
+
+
 #      - name: isort
 #        uses: isort/isort-action@master
 #        with:
@@ -65,17 +72,6 @@ jobs:
 #          message: '[Git Action] Python auto-linting'
 #          add: '.'
 
-      - name: pylint-annotate
-        uses: marian-code/python-lint-annotate@v3
-        with:
-          use-pycodestyle: true
-          use-mypy: false
-          use-vulture: true
-          use-black: true
-          use-isort: true
-          use-pydocstyle: true
-          extra-pylint-options: "--output-format="colorized"
-#
 #      - name: comment pr
 #        uses: mshick/add-pr-comment@v1
 #        with:
