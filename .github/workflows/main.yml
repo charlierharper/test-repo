@@ -1,4 +1,4 @@
-name: SQLFluff
+name: Python Linters
 
 on:
   pull_request:
