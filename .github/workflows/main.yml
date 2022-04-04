@@ -22,9 +22,9 @@ jobs:
         with:
           output: ' '
 
-      -name: black
-       uses: psf/black@stable
-       args: ${{ steps.get_file_changes.outputs.files }}
+      - name: black
+        uses: psf/black@stable
+        args: ${{ steps.get_file_changes.outputs.files }}
 
 
       - name: autopep8
