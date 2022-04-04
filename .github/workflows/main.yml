@@ -58,11 +58,6 @@ jobs:
         with:
           args: --recursive --in-place --aggressive --aggressive ${{ steps.get_py_files.outputs.to_lint }}
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v1
-        with:
-          flake8: true
-
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
