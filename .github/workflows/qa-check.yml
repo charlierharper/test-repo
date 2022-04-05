@@ -40,10 +40,10 @@ jobs:
           if [ "${{ steps.last-common-sha.outputs.sha }}" != "${{ steps.get-branch-sha.outputs.sha }}" ]
           then
             echo "::set-output name=pr-message::Did you merge to QA first? HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} does not match last common  QA SHA ${{ steps.last-common-sha.outputs.sha }}."
-            echo "::set-output name=passed::false"
+            echo "::set-output name=passed::0"
           else
             echo "::set-output name=pr-message::Looks like you merged to QA already! HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} matches last common QA SHA ${{ steps.last-common-sha.outputs.sha }}."
-            echo "::set-output name=passed::true"
+            echo "::set-output name=passed::1"
           fi
           
       - name: Comment on PR
@@ -57,8 +57,7 @@ jobs:
           
       - name: Pass/Fail
         run: |
-          if [ ${{ steps.compare-shas.outputs.passed }}==true ]
-          then
+          if [ ${{ steps.compare-shas.outputs.passed }}==1 ]; then
             exit 0
           else
             exit 1
