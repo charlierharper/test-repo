@@ -26,7 +26,7 @@ jobs:
           then
             echo "::set-output name=pr-message::$(
             Branch SHA ${{ github.event.pull_request.head.sha }} does not match last common 
-            QA SHA ${{ steps.get_shas.output.last-common-sha }}. Did you merge to QA first?
+            QA SHA ${{ steps.get_shas.output.last-common-sha }}. **Did you merge to QA first?
             )"
           else
             echo "::set-output name=pr-message::$(
@@ -35,10 +35,14 @@ jobs:
             )"
           fi
           
+
       - name: Comment on PR
-        uses: github-actions-up-and-running/pr-comment@v1.0.0
+        uses: mshick/add-pr-comment@v1
         with:
+          message: |
+            ${{ steps.compare-shas.outputs.pr-message }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          message: ${{ steps.compare-shas.outputs.pr-message }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: false 
 
        
