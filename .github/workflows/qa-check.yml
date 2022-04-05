@@ -40,7 +40,7 @@ jobs:
             echo "::set-output name=pr-message::Did you merge to QA first? HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} does not match last common  QA SHA ${{ steps.last-common-sha.outputs.sha }}."
             echo "::set-output name=passed::false"
           else
-            echo "::set-output name=pr-message::'Looks like you merged to QA already! HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} matches last common QA SHA ${{ steps.last-common-sha.outputs.sha }}."
+            echo "::set-output name=pr-message::Looks like you merged to QA already! HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} matches last common QA SHA ${{ steps.last-common-sha.outputs.sha }}."
             echo "::set-output name=passed::true"
           fi
           
