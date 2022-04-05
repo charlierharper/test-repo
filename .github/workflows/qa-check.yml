@@ -48,7 +48,7 @@ jobs:
             ${{ steps.compare-shas.outputs.pr-message }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
-          allow-repeats: false 
+          allow-repeats: true 
           
       - name: Pass/Fail
         run:
