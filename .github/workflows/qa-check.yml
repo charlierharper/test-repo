@@ -18,8 +18,8 @@ jobs:
       - name: Get Branch SHA
         id: get-branch-sha
         run: |
+          echo "Branch HEAD SHA: ${{ github.event.pull_request.head.sha }}"
           echo "::set-output name=sha::${{ github.event.pull_request.head.sha }}"
-          echo "HEAD SHA: ${{ github.event.pull_request.head.sha }}"
 
       - uses: actions/checkout@v3
         with:
@@ -30,7 +30,7 @@ jobs:
         id: last-common-sha
         run: |
             common=$(echo "$(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)")
-            echo $common
+            echo "Last common SHA: $common"
             echo "::set-output name=sha::$common"
       
       - name: Compare SHAs
