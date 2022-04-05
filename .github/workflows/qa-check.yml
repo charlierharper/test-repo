@@ -54,7 +54,7 @@ jobs:
           allow-repeats: true 
           
       - name: Fail Check
-        if: ${{ steps.compare-shas.outputs.passed }}==true
+        if: ${{ steps.compare-shas.outputs.passed }}==false
         run: |
             exit 1
 
