@@ -21,8 +21,9 @@ jobs:
         run: |
           echo "HEAD SHA: ${{ github.event.pull_request.head.sha }}"
           echo "Last Common SHA with QA: ${{ steps.get_shas.output.last-common-sha }}"
-          if [ ${{steps.get_shas.output.last-common-sha}} != ${{ github.event.pull_request.head.sha }} ]
+          if [ "${{ steps.get_shas.output.last-common-sha }}" != "${{ github.event.pull_request.head.sha }}" ]
           then
+            echo "SHAs don't match. Did you merge to QA first?"
             exit 1
           else
             exit 0
