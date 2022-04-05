@@ -10,26 +10,54 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
       
-      - name: Get SHAs
-        id: get_shas
+      - name: Get Branch SHA
+        id: get-branch-sha
         run: |
-          #checkout branch
-          git checkout ${{ GITHUB_REF##*/ }}
-          #get its head sha
-          echo "::set-output name=branch-sha::$(git rev-parse HEAD)"
-          #get last common sha between QA and current branch
-          echo "::set-output name=last-common-sha::$(git merge-base HEAD QA)"
+          echo "::set-output name=sha::${{ github.event.pull_request.head.sha }}"
+          echo "HEAD SHA: ${{ github.event.pull_request.head.sha }}"
 
+      - uses: actions/checkout@v3
+        with:
+          ref: QA
+          fetch-depth: 0
+
+      - name: Get Last Common SHA
+        id: last-common-sha
+        run: |
+            common=$(echo "$(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)")
+            echo $common
+            echo "::set-output name=sha::$common"
+      
       - name: Compare SHAs
+        id: compare-shas
         run: |
-          echo "${{ GITHUB_REF##*/ }} HEAD SHA: ${{ steps.get_shas.output.branch-sha }}"
-          echo "Last Common SHA with QA: ${{ steps.get_shas.output.last-common-sha }}"
-          if [ ${{steps.get_shas.output.last-common-sha}} != ${{ steps.get_shas.output.branch-sha }} ]
+          echo "Last Common SHA with QA: ${{ steps.last-common-sha.outputs.sha }}"
+          if [ "${{ steps.last-common-sha.outputs.sha }}" != "${{ steps.get-branch-sha.outputs.sha }}" ]
           then
-            exit 1
+            echo "::set-output name=pr-message::Did you merge to QA first? HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} does not match last common  QA SHA ${{ steps.last-common-sha.outputs.sha }}."
+            echo "::set-output name=passed::false"
           else
-            exit 0
+            echo "::set-output name=pr-message::Looks like you merged to QA already! HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} matches last common QA SHA ${{ steps.last-common-sha.outputs.sha }}."
+            echo "::set-output name=passed::true"
           fi
-
-       
+          
+      - name: Comment on PR
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            ${{ steps.compare-shas.outputs.pr-message }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: true 
+          
+      - name: Pass/Fail
+        run: |
+          if [[ ${{ steps.compare-shas.outputs.passed }} ]]
+          then
+            exit 0
+          else
+            exit 1
+          fi
