@@ -19,8 +19,8 @@ jobs:
         run: |
           #get last common sha between QA and current branch
           echo "::set-output name=last-common-sha::$(git merge-base HEAD QA)"
-          echo "$(git merge-base HEAD QA)"
-          echo "$(git merge-base ${{ github.ref }} QA)"
+          git merge-base HEAD QA
+          git merge-base ${{ github.ref }} QA
 
       - name: Compare SHAs
         id: compare-shas
