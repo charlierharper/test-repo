@@ -18,15 +18,27 @@ jobs:
           echo "::set-output name=last-common-sha::$(git merge-base HEAD QA)"
 
       - name: Compare SHAs
+        id: compare-shas
         run: |
           echo "HEAD SHA: ${{ github.event.pull_request.head.sha }}"
           echo "Last Common SHA with QA: ${{ steps.get_shas.output.last-common-sha }}"
           if [ "${{ steps.get_shas.output.last-common-sha }}" != "${{ github.event.pull_request.head.sha }}" ]
           then
-            echo "SHAs don't match. Did you merge to QA first?"
-            exit 1
+            echo "::set-output name=pr-message::$(
+            Branch SHA ${{ github.event.pull_request.head.sha }} does not match last common 
+            QA SHA ${{ steps.get_shas.output.last-common-sha }}. Did you merge to QA first?
+            )"
           else
-            exit 0
+            echo "::set-output name=pr-message::$(
+            Branch SHA ${{ github.event.pull_request.head.sha }} matches last common 
+            QA SHA ${{ steps.get_shas.output.last-common-sha }}. Looks like you merged to QA already!
+            )"
           fi
+          
+      - name: Comment on PR
+        uses: github-actions-up-and-running/pr-comment@v1.0.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message: ${{ steps.compare-shas.outputs.pr-message }}
 
        
