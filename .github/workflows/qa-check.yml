@@ -2,7 +2,9 @@ name: Check for QA Merge
 
 on:
   pull_request:
-    branches: [ main, master ]
+    branches: 
+      - master
+      - main
 
 jobs:
   check-qa:
