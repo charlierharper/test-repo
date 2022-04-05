@@ -28,15 +28,13 @@ jobs:
         id: last-common-sha
         run: |
             common=$(echo "$(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)")
-            echo "$(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)"
-            echo "::set-output name=sha::$common"
-            echo $common
-            echo '$(echo "$(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)")'
+            echo $(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)"
+            echo ::set-output name=common-sha::$(echo $common)
       
       - name: Compare SHAs
         run: |
           echo "Last Common SHA with QA: ${{ steps.last-common-sha.output.sha }}"
-          if [ "${{ steps.last-common-sha.output.sha }}" != "${{ steps.get-branch-sha.outputs.sha }}" ]
+          if [ "${{ steps.last-common-sha.output.common-sha }}" != "${{ steps.get-branch-sha.outputs.sha }}" ]
           then
             echo "::set-output name=pr-message::Did you merge to QA first? HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} does not match last common  QA SHA ${{ steps.last-common-sha.output.sha }}."
             echo "::set-output name=passed::false"
