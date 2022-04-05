@@ -57,8 +57,10 @@ jobs:
           
       - name: Pass/Fail
         run: |
-          if [ ${{ steps.compare-shas.outputs.passed }}==1 ]; then
-            exit 0
-          else
-            exit 1
-          fi
+        
+      - name: Pass/Fail
+        if: ${{ steps.compare-shas.outputs.passed }} != 1
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('SHAs do not match')
