@@ -33,13 +33,13 @@ jobs:
       
       - name: Compare SHAs
         run: |
-          echo "Last Common SHA with QA: ${{ steps.last-common-sha.output.sha }}"
-          if [ "${{ steps.last-common-sha.output.common-sha }}" != "${{ steps.get-branch-sha.outputs.sha }}" ]
+          echo "Last Common SHA with QA: ${{ steps.last-common-sha.outputs.sha }}"
+          if [ "${{ steps.last-common-sha.outputs.common-sha }}" != "${{ steps.get-branch-sha.outputs.sha }}" ]
           then
-            echo "::set-output name=pr-message::Did you merge to QA first? HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} does not match last common  QA SHA ${{ steps.last-common-sha.output.sha }}."
+            echo "::set-output name=pr-message::Did you merge to QA first? HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} does not match last common  QA SHA ${{ steps.last-common-sha.outputs.sha }}."
             echo "::set-output name=passed::false"
           else
-            echo "::set-output name=pr-message::'Looks like you merged to QA already! HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} matches last common QA SHA ${{ steps.last-common-sha.output.sha }}."
+            echo "::set-output name=pr-message::'Looks like you merged to QA already! HEAD SHA ${{ steps.get-branch-sha.outputs.sha }} matches last common QA SHA ${{ steps.last-common-sha.outputs.sha }}."
             echo "::set-out name=passed::true"
           fi
           
