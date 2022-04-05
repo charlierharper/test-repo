@@ -1,0 +1,64 @@
+name: Python Linters
+
+on:
+  pull_request:
+    branches: 
+      - 'QA'
+      - 'qa'
+
+jobs:
+  lint-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Install Python
+        uses: "actions/setup-python@v2"
+
+      - name: Get all changed files
+        id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.4
+        with:
+          output: ' '
+
+      - name: Get changed .py files to lint
+        id: get_py_files
+        run: |
+          echo "::set-output name=to_lint::$(
+          echo \
+          $(echo ${{ steps.get_file_changes.outputs.files_modified }} |
+          tr -s ' ' '\n' |
+          grep -E '^*[.]py' |
+          tr -s '\n' ' ') \
+          $(echo ${{ steps.get_file_changes.outputs.files_added }} |
+          tr -s ' ' '\n' |
+          grep -E '^*[.]py' |
+          tr -s '\n' ' ')
+          )"
+      
+      - name: isort
+        run: |
+          pip install isort
+          isort ${{ steps.get_py_files.outputs.to_lint }}
+
+      - name: black
+        uses: psf/black@stable
+        with:
+          src: ${{ steps.get_py_files.outputs.to_lint }}
+          options:  '--verbose'
+          
+      - name: autopep8
+        uses: peter-evans/autopep8@v1
+        with:
+          args: --recursive --in-place --aggressive --aggressive ${{ steps.get_py_files.outputs.to_lint }}
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Git Actions - Linters
+          message: '[Git Action] Python auto-linting'
+          add: '.'
+
