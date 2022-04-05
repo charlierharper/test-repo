@@ -16,7 +16,7 @@ jobs:
       - name: Get Branch SHA
         id: get_branch_sha
         run: |
-          echo "::set-output name=branch-sha::$( ${{ github.event.pull_request.head.sha }})"
+          echo "::set-output name=branch-sha::${{ github.event.pull_request.head.sha }}"
           echo "HEAD SHA: ${{ github.event.pull_request.head.sha }}"
 
       - uses: actions/checkout@v3
