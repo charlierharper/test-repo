@@ -53,9 +53,10 @@ jobs:
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
           allow-repeats: true 
           
-      - name: Fail Check
-        if: ${{ steps.compare-shas.outputs.passed }}==false
+      - name: Pass/Fail
         run: |
+          if [ ${{ steps.compare-shas.outputs.passed }}==false ]
+          then
             exit 1
-
-       
+          else
+            exit 0
