@@ -30,6 +30,8 @@ jobs:
             common=$(echo "$(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)")
             echo "$(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)"
             echo "::set-output name=sha::$common"
+            echo $common
+            echo '$(echo "$(git merge-base ${{ steps.get-branch-sha.outputs.sha }} QA)")'
       
       - name: Compare SHAs
         run: |
