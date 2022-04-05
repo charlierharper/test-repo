@@ -14,7 +14,7 @@ jobs:
           ref: ${{ github.ref }}
       
       - name: Get Branch SHA
-        id: get_branch_sha
+        id: get-branch-sha
         run: |
           echo "::set-output name=branch-sha::${{ github.event.pull_request.head.sha }}"
           echo "HEAD SHA: ${{ github.event.pull_request.head.sha }}"
@@ -27,7 +27,7 @@ jobs:
       - name: Compare SHAs
         id: compare-shas
         run: |
-            git merge-base ${{ steps.get_branch_sha.outputs.branch_sha }} QA
+            git merge-base ${{ steps.get-branch-sha.outputs.branch-sha }} QA
 #         run: |
 #           echo "Last Common SHA with QA: ${{ steps.get_shas.output.last-common-sha }}"
 #           if [ "${{ steps.get_shas.output.last-common-sha }}" != "${{ github.event.pull_request.head.sha }}" ]
