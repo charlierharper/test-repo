@@ -4,6 +4,8 @@ import os
 import pandas
 import scipy
 
+import jupyter
+
 
 
 
