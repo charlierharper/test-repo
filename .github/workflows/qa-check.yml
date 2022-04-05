@@ -57,7 +57,7 @@ jobs:
           
       - name: Pass/Fail
         run: |
-          if [[ ${{ steps.compare-shas.outputs.passed }} ]]
+          if [ ${{ steps.compare-shas.outputs.passed }}==true ]
           then
             exit 0
           else
