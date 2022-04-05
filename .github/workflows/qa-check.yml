@@ -14,18 +14,14 @@ jobs:
       - name: Get SHAs
         id: get_shas
         run: |
-          #checkout branch
-          git checkout ${{ GITHUB_REF##*/ }}
-          #get its head sha
-          echo "::set-output name=branch-sha::$(git rev-parse HEAD)"
           #get last common sha between QA and current branch
           echo "::set-output name=last-common-sha::$(git merge-base HEAD QA)"
 
       - name: Compare SHAs
         run: |
-          echo "${{ GITHUB_REF##*/ }} HEAD SHA: ${{ steps.get_shas.output.branch-sha }}"
+          echo "HEAD SHA: ${{ github.event.pull_request.head.sha }}"
           echo "Last Common SHA with QA: ${{ steps.get_shas.output.last-common-sha }}"
-          if [ ${{steps.get_shas.output.last-common-sha}} != ${{ steps.get_shas.output.branch-sha }} ]
+          if [ ${{steps.get_shas.output.last-common-sha}} != ${{ github.event.pull_request.head.sha }} ]
           then
             exit 1
           else
