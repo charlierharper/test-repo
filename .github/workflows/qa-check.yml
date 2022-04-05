@@ -40,7 +40,7 @@ jobs:
         uses: mshick/add-pr-comment@v1
         with:
           message: |
-            ${{ steps.compare-shas.outputs.pr-message }}
+            "${{ steps.compare-shas.outputs.pr-message }}"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
           allow-repeats: false 
