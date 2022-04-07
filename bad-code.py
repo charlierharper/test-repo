@@ -11,7 +11,7 @@ import jupyter
 
 
 def Func2(arg1: int = None, arg_2=" test"):
-    "My Doc String Test"
+    "My Doc String   Test"
     print("test ")
 
 
