@@ -23,7 +23,7 @@ jobs:
       run: |
         mkdir gh-pages
         touch gh-pages/.nojekyll
-        mkdir docs && cd docs/
+        cd docs/
         sphinx-build -b html . _build
         cp -r _build/* ../gh-pages/        
     - name: Deploy documentation
