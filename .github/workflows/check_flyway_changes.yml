@@ -30,17 +30,19 @@ jobs:
 
       - name: Get changed Flyway V* scripts
         id: get-flyway-changed
-        run: |
-          CHANGED_SCRIPTS=${{ steps.get_file_changes.outputs.files_modified }} |
+        run: |       
+          CHANGED_SCRIPTS=$("${{ steps.get_file_changes.outputs.files_modified }}" |
           tr -s ' ' '\n' |
-          grep -E '^*FlywayDeployments/*/V*[.]sql' |
-          tr -s '\n' ' '
+          grep -E 'FlywayDeployments/*/V*[.]sql' |
+          tr -s '\n' ' ')
           echo "$CHANGED_SCRIPTS"
-          PR_MESSAGE="The following flywheel deployments scripts were modified: $CHANGED_SCRIPTS"
-          if [[ -n $CHANGED_SCRIPTS ]]; then
+          
+          if [[ -n "$CHANGED_SCRIPTS" ]]; then
             PASSED=0
+            PR_MESSAGE="No Flyway Scripts were modified"
           else
             PASSED=1
+            PR_MESSAGE="The following flywheel deployments scripts were modified: $CHANGED_SCRIPTS"
           fi
           echo "::set-output name=pr-message::$PR_MESSAGE"
           echo "::set-output name=passed::$PASSED"
@@ -55,14 +57,14 @@ jobs:
           allow-repeats: true
 
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ steps.get-flyway-changed.outputs.passed }} != 1
+        if: ${{ steps.get-flyway-changed.outputs.passed }} == 0
         with:
           labels: flyway-check-failed
 
       - name: Pass/Fail
-        if: ${{ steps.get-flyway-changed.outputs.passed }} != 1
+        if: ${{ steps.get-flyway-changed.outputs.passed }} == 0
         uses: actions/github-script@v3
         with:
           script: |
-            core.setFailed('SHAs do not match')
+            core.setFailed('Flyway scripts have been modified')
 
