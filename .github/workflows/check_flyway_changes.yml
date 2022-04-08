@@ -33,7 +33,7 @@ jobs:
         run: |       
           CHANGED_SCRIPTS=$("${{ steps.get_file_changes.outputs.files_modified }}" |
           tr -s ' ' '\n' |
-          grep -E 'V*[.]sql' |
+          grep -E 'FlywayDeployments/*/V*[.]sql' |
           tr -s '\n' ' ')
           echo "$CHANGED_SCRIPTS"
           
