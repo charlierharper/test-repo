@@ -31,11 +31,11 @@ jobs:
       - name: Get changed Flyway V* scripts
         id: get-flyway-changed
         run: |       
-          CHANGED_SCRIPTS=$('${{ steps.get_file_changes.outputs.files_modified }}' |
+          CHANGED_SCRIPTS=$("${{ steps.get_file_changes.outputs.files_modified }}" |
           tr -s ' ' '\n' |
-          grep -E '^*FlywayDeployments/*/V*[.]sql' |
-          tr -s '\n' ' '
-          echo "$CHANGED_SCRIPTS")
+          grep -E 'V*[.]sql' |
+          tr -s '\n' ' ')
+          echo "$CHANGED_SCRIPTS"
           
           if [[ -n "$CHANGED_SCRIPTS" ]]; then
             PASSED=0
