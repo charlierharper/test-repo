@@ -1,0 +1,68 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Flyway Scripts Check
+
+on:
+  pull_request:
+    branches:
+      - QA
+      - qa
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Install Python
+        uses: "actions/setup-python@v2"
+
+      - name: Get all changed files
+        id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.4
+        with:
+          output: ' '
+
+      - name: Get changed Flyway V* scripts
+        id: get-flyway-changed
+        run: |
+          CHANGED_SCRIPTS=${{ steps.get_file_changes.outputs.files_modified }} |
+          tr -s ' ' '\n' |
+          grep -E '^*FlywayDeployments/*/V*[.]sql' |
+          tr -s '\n' ' '
+          echo "$CHANGED_SCRIPTS"
+          PR_MESSAGE="The following flywheel deployments scripts were modified: $CHANGED_SCRIPTS"
+          if [[ -n $CHANGED_SCRIPTS ]]; then
+            PASSED=0
+          else
+            PASSED=1
+          fi
+          echo "::set-output name=pr-message::$PR_MESSAGE"
+          echo "::set-output name=passed::$PASSED"
+          
+      - name: Comment on PR
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            ${{ steps.get-flyway-changed.outputs.pr-message }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: true
+
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ steps.get-flyway-changed.outputs.passed }} != 1
+        with:
+          labels: flyway-check-failed
+
+      - name: Pass/Fail
+        if: ${{ steps.get-flyway-changed.outputs.passed }} != 1
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('SHAs do not match')
+
