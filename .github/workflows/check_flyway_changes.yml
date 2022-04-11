@@ -39,11 +39,12 @@ jobs:
           
           if [[ -n "$CHANGED_SCRIPTS" ]]; then
             PASSED=0
-            PR_MESSAGE="No Flyway Scripts were modified"
+            PR_MESSAGE="The following flywheel deployments scripts were modified: $CHANGED_SCRIPTS"
           else
             PASSED=1
-            PR_MESSAGE="The following flywheel deployments scripts were modified: $CHANGED_SCRIPTS"
+            PR_MESSAGE="No Flyway Scripts were modified"
           fi
+          
           echo "::set-output name=pr-message::$PR_MESSAGE"
           echo "::set-output name=passed::$PASSED"
           
