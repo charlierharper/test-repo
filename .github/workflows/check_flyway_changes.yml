@@ -58,7 +58,7 @@ jobs:
           allow-repeats: true
 
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ steps.get-flyway-changed.outputs.passed }} == 0
+        if: ${{ steps.get-flyway-changed.outputs.passed == 0 }}
         with:
           labels: flyway-check-failed
 
