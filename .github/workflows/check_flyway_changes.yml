@@ -31,7 +31,7 @@ jobs:
       - name: Get changed Flyway V* scripts
         id: get-flyway-changed
         run: |       
-          CHANGED_SCRIPTS=$('${{ steps.get_file_changes.outputs.files_modified }}' |
+          CHANGED_SCRIPTS=$(echo '${{ steps.get_file_changes.outputs.files_modified }}' |
           tr -s ' ' '\n' |
           grep -E 'FlywayDeployments\/\w+\/V\w+.sql' |
           tr -s '\n' ' ')
